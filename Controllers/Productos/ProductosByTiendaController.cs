@@ -1,0 +1,42 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using acmarkert.Models.Productos;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+namespace acmarkert.Controllers.Productos
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ProductosByTiendaController : ControllerBase
+    {
+        [HttpPost("[action]")]
+        public ActionResult getProductosByTiendaAndNombre([FromBody] ProductosModel productoM) {
+
+            int result = 0;
+            string msj = "¡Error al obtener productos intente más tarde!";
+            List<ProductosModel> lista = null;
+            try
+            {
+                lista = productoM.getProductosByTiendaAndNombre();
+                result = 1;
+                msj = "¡Productos obtenidos!";
+            }
+            catch
+            {
+                result = 0;
+                msj = "¡Error al obtener productos intente más tarde!";
+            }
+
+            return Ok(new
+            {
+                resultado = result,
+                mensaje = msj,
+                productos = lista
+            });
+
+        }
+    }
+}
